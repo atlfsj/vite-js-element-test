@@ -7,10 +7,17 @@
         <!-- query -->
         <div class="query-box">
             <el-input v-model="queryInput" placeholder="请输入姓名搜索🔍" />
-            <el-button type="add">增加</el-button>
+            <el-button type="primary">增加</el-button>
         </div>
-        <!-- table -->
-        <el-table :data="tableData" style="width: 100%">
+        <!-- table -->  <!-- el-table可用border加边框-->
+        <el-table 
+            border
+            ref="multipleTableRef"
+            :data="tableData"
+            style="width: 100%"
+            @selection-change="handleSelectionChange"
+        >
+            <el-table-column type="selection" width="55" />
             <el-table-column fixed prop="date" label="Date" width="150" />
             <el-table-column prop="name" label="Name" width="120" />
             <el-table-column prop="state" label="State" width="120" />
@@ -34,6 +41,7 @@ import { ref } from 'vue'
 
 /* 数据 */
 const queryInput = ref("")
+const multipleSelection = ref([])
 const tableData = [
   {
     date: '2016-05-03',
@@ -77,6 +85,10 @@ const tableData = [
 const handleRowClick = ()=> {
     console.log('click')
 }
+const handleSelectionChange = (val) => {
+  multipleSelection.value = val
+  console.log(val);
+}
 
 
 </script>
@@ -88,5 +100,16 @@ const handleRowClick = ()=> {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+.title{
+    text-align: center;
+}
+.query-box{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 25px;
+}
+.el-input{
+    width: 200px;
 }
 </style>

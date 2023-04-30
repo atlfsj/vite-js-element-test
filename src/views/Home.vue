@@ -7,7 +7,10 @@
         <!-- query -->
         <div class="query-box">
             <el-input class="queryInput" v-model="queryInput" placeholder="请输入姓名搜索" />
-            <el-button type="primary" @click="handleAdd">增加</el-button>
+            <div class="btnList">
+                <el-button type="primary" @click="handleAdd">增加</el-button>
+                <el-button type="danger" @click="handleDelList" v-if = "multipleSelection.length > 0">删除多选</el-button>
+            </div>
         </div>
         <!-- table -->      <!-- el-table可用border加边框-->
         <el-table border ref="multipleTableRef" :data="tableData" style="width: 100%"
@@ -72,7 +75,7 @@ const multipleSelection = ref([])
 const tableData = ref([
     {
         id: "1",
-        name: 'Tom',
+        name: 'Tom1',
         email: '123@qq.com',
         phone: '13855669452',
         state: '在职',
@@ -80,7 +83,7 @@ const tableData = ref([
     },
     {
         id: "2",
-        name: 'Tom',
+        name: 'Tom2',
         email: '123@qq.com',
         phone: '13855669452',
         state: '在职',
@@ -88,7 +91,7 @@ const tableData = ref([
     },
     {
         id: "3",
-        name: 'Tom',
+        name: 'Tom3',
         email: '123@qq.com',
         phone: '13855669452',
         state: '在职',
@@ -96,7 +99,7 @@ const tableData = ref([
     },
     {
         id: "4",
-        name: 'Tom',
+        name: 'Tom4',
         email: '123@qq.com',
         phone: '13855669452',
         state: '在职',
@@ -108,22 +111,44 @@ const tableForm = ref({})
 const dialogType = ref('add')
 
 /* 方法 */
-const handleRowDel = ({id}) => {    //删除数据 - 解构赋值
+
+//删除一行数据 
+const handleRowDel = ({id}) => {     // 解构赋值
     console.log(id)
     // 1.通过id获取到对应索引值
     const index = tableData.value.findIndex(item=>item.id === id)
     // 2.通过索引值删除对应条目
     tableData.value.splice(index, 1)
 }
-const handleSelectionChange = (val) => {
-    multipleSelection.value = val
-    console.log(id);
-}
-const handleAdd = ()=> {
+
+// 弹窗
+const handleAdd = ()=> {       
     dialogFormVisible.value = true
     tableForm.value = {}
 }
-const dialogConfirm = ()=> {        // 添加数据
+
+// 多选
+const handleSelectionChange = (val) => {    
+    // multipleSelection.value = val
+    // console.log(val);
+
+    multipleSelection.value = []
+    val.forEach(item => {
+        multipleSelection.value.push(item.id)
+    })
+    // console.log(multipleSelection.value)
+}
+
+// 删除多选
+const handleDelList = ()=> {        
+    multipleSelection.value.forEach(id => {
+        handleRowDel({id})
+    })
+    multipleSelection.value = []
+}
+
+// 添加数据
+const dialogConfirm = ()=> {        
     dialogFormVisible.value = false
     // 1.拿到数据
     // 2.添加到table

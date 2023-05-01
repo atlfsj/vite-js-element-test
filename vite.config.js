@@ -17,4 +17,5 @@ export default defineConfig({
     }),
   ],
   
+  base: 'https://github.com/atlfsj/vite-js-element-test/tree/main/dist'    // 打包相对路径
 })

@@ -17,5 +17,5 @@ export default defineConfig({
     }),
   ],
   
-  base: '/vite-js-element-test/tree/main/dist'    // 打包相对路径
+  base: '/vite-js-element-test/dist'    // 打包相对路径
 })

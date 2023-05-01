@@ -23,13 +23,10 @@
             <el-table-column prop="address" label="住址" width="300" />
             <el-table-column fixed="right" label="Operations" width="120">
                 <template #default="scope">
-                    <el-button link
-                      type="primary"
-                      size="small"
-                      @click.prevent="handleRowDel(scope.row)" style="color: #F56C6C">
+                    <el-button link type="primary" size="small" @click="handleRowDel(scope.row)" style="color: #F56C6C">
                         删除
                     </el-button>
-                    <el-button link type="primary" size="small">
+                    <el-button link type="primary" size="small" @click="handleEdit(scope.row)" >
                         编辑
                     </el-button>
                 </template>
@@ -72,7 +69,7 @@ import { ref } from 'vue'
 /* 数据 */
 const queryInput = ref("")
 const multipleSelection = ref([])
-const tableData = ref([
+let tableData = ref([
     {
         id: "1",
         name: 'Tom1',
@@ -107,22 +104,23 @@ const tableData = ref([
     }
 ])
 const dialogFormVisible = ref(false)
-const tableForm = ref({})
-const dialogType = ref('add')
+let tableForm = ref({})
+let dialogType = ref('add')
 
 /* 方法 */
 
 //删除一行数据 
 const handleRowDel = ({id}) => {     // 解构赋值
-    console.log(id)
+    /* console.log(id)*/
     // 1.通过id获取到对应索引值
-    const index = tableData.value.findIndex(item=>item.id === id)
+    let index = tableData.value.findIndex(item=>item.id === id)
     // 2.通过索引值删除对应条目
     tableData.value.splice(index, 1)
 }
 
-// 弹窗
-const handleAdd = ()=> {       
+// add弹窗
+const handleAdd = ()=> {  
+    dialogType = 'add'           
     dialogFormVisible.value = true
     tableForm.value = {}
 }
@@ -136,7 +134,7 @@ const handleSelectionChange = (val) => {
     val.forEach(item => {
         multipleSelection.value.push(item.id)
     })
-    // console.log(multipleSelection.value)
+    /* console.log(multipleSelection.value)*/
 }
 
 // 删除多选
@@ -147,18 +145,38 @@ const handleDelList = ()=> {
     multipleSelection.value = []
 }
 
-// 添加数据
-const dialogConfirm = ()=> {        
-    dialogFormVisible.value = false
-    // 1.拿到数据
-    // 2.添加到table
-    tableData.value.push({
-        id: (tableData.value.length + 1).toString(),
-        ...tableForm.value
-    })
-    console.log(tableData.value)
+// edit弹窗
+const handleEdit = (row)=> {
+    dialogFormVisible.value = true
+    dialogType = 'edit'
+    /* console.log(row)*/
+    tableForm.value = {...row}
 }
 
+// 确认
+const dialogConfirm = ()=> {  
+    dialogFormVisible.value = false
+
+    // 判断新增还是编辑
+    if (dialogType === 'add') {
+        // 1.拿到数据
+        // 2.添加到table
+        tableData.value.push({
+            id: (tableData.value.length + 1).toString(),
+            ...tableForm.value
+        })
+        /* console.log(tableData.value)*/
+    } else {
+        // 1.获取到当前的索引
+        let index = tableData.value.findIndex(item=>item.id === tableForm.value.id)
+        /* console.log(index)*/
+    
+        // 2.替换当前索引值对应的数据
+        tableData.value[index] = tableForm.value
+    }
+
+    
+}
 
 </script>
 

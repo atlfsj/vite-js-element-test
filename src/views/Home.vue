@@ -6,7 +6,7 @@
 
         <!-- query -->
         <div class="query-box">
-            <el-input class="queryInput" v-model="queryInput" placeholder="请输入姓名搜索" />
+            <el-input class="queryInput" v-model="queryInput" placeholder="请输入姓名搜索" @input="handleQueryName" />
             <div class="btnList">
                 <el-button type="primary" @click="handleAdd">增加</el-button>
                 <el-button type="danger" @click="handleDelList" v-if = "multipleSelection.length > 0">删除多选</el-button>
@@ -106,8 +106,19 @@ let tableData = ref([
 const dialogFormVisible = ref(false)
 let tableForm = ref({})
 let dialogType = ref('add')
+let tableDataCopy = Object.assign(tableData)    // 浅拷贝
 
 /* 方法 */
+
+// 搜索
+const handleQueryName = (val)=> {
+    if(val.length > 0){
+        tableData.value = tableData.value.filter(item => (item.name).toLowerCase().match(val.toLowerCase()))
+        
+    } else {
+        tableData.value = tableDataCopy.value
+    }
+}
 
 //删除一行数据 
 const handleRowDel = ({id}) => {     // 解构赋值

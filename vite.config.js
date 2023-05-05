@@ -17,5 +17,5 @@ export default defineConfig({
     }),
   ],
   assetsDir: 'assets',
-  base: '/vite-js-element-test/dist/'    
+  base: './'    
 })

@@ -69,7 +69,7 @@ h1 {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: lightgrey;
+  background: rgb(228, 223, 223);
   border-radius: 3%;
 
 }

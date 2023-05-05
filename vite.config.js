@@ -16,6 +16,6 @@ export default defineConfig({
       resolvers: [ElementPlusResolver()],
     }),
   ],
-  
-  base: '/vite-js-element-test/dist'    // 打包相对路径
+  assetsDir: 'assets',
+  base: '/vite-js-element-test/'    
 })

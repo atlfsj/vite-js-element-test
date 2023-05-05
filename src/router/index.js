@@ -19,9 +19,9 @@ const routes = [
     component: Home
   }
 ]
-
+const hash = createWebHashHistory()
 const router = createRouter({
-    history: createWebHistory(),
+    history: hash,
     routes
 })
 
